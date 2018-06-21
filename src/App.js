@@ -19,97 +19,133 @@ import React, {Component} from 'react';
 // }
 
 class App extends Component {
-    render() {
-        return (
-            <div id="main">
-                <Header/>
-                <Welcome name="Mark"/>
-                <Footer/>
-            </div>
-        );
-    }
+  render() {
+    return (
+      <div id="main">
+        <Header/>
+        <Welcome name="Mark"/>
+        <Footer/>
+      </div>
+    );
+  }
 }
 
 
-class Token extends Component {
-    render() {
-        return (
-            <div>
-                <form name="access_token" action="#">
-                    <label for="token">Token: </label>
-                    <input type="text" name="token"/><br/>
-                </form>
-            </div>
-        );
-    }
+class TokenForm extends Component {
+
+  constructor(props) {
+    super(props);
+    this.state = {token: ''};
+
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  handleChange(event) {
+    this.setState({token: event.target.value});
+  }
+
+  handleSubmit(event) {
+    alert('Submit clicked, token=' + this.state.token);
+    event.preventDefault();
+  }
+
+  render() {
+    return (
+      <div>
+        <form onSubmit={this.handleSubmit}>
+          <label htmlFor="token">Token:</label>
+          <input type="text" name="token" value={this.state.token} onChange={this.handleChange}/>
+          <input type="submit" value="Submit"/>
+        </form>
+      </div>
+    );
+  }
 }
 
 
-const menu = ['One', 'Two', 'Three'];
-const h1List = menu.map((h1) =>
-    <li>{h1}</li>
-);
+class Menu extends Component {
+
+  // constructor(props) {
+  //   super(props)
+  //   const {
+  //     name
+  //   } = props;
+  // }
+
+  render() {
+    return (
+      <div>
+        <ul>
+          <li>One</li>
+          <li>Two</li>
+          <li>Three</li>
+        </ul>
+      </div>
+    );
+  }
+}
 
 class Header extends Component {
 
-    render() {
-        return (
-            <div>
-                <Token/>
-                <ul>{h1List}</ul>
-            </div>
-        );
-    }
+  render() {
+    return (
+      <div>
+        <TokenForm/>
+        <Menu/>
+      </div>
+    );
+  }
 }
 
 
 class Welcome extends Component {
-    render() {
-        return (
-            <h3>Hello, {this.props.name}</h3>
-        );
-    }
+  render() {
+    return (
+      <h3>Hello, {this.props.name}</h3>
+    );
+  }
 }
 
 
 class Footer extends Component {
-    render() {
-        return (
-            <div>This is a footer. <Clock /></div>
-        );
-    }
+  render() {
+    return (
+      <div>This is a footer. <Clock/></div>
+    );
+  }
 }
 
 
 class Clock extends React.Component {
 
-    constructor(props) {
-        super(props);
-        this.state = {date: new Date()};
-    }
+  constructor(props) {
+    super(props);
+    this.state = {date: new Date()};
+  }
 
-    componentDidMount() {
-        this.timerID = setInterval(
-            () => this.tick(),
-            1000
-        );
-    }
+  componentDidMount() {
+    this.timerID = setInterval(
+      () => this.tick(),
+      1000
+    );
+  }
 
-    componentWillUnmount() {
-        clearInterval(this.timerID);
-    }
+  componentWillUnmount() {
+    clearInterval(this.timerID);
+  }
 
-    tick() {
-        this.setState({
-            date: new Date()
-        });
-    }
+  tick() {
+    this.setState({
+      date: new Date()
+    });
+  }
 
-    render() {
-        return (
-            <span>{this.state.date.toLocaleTimeString()}</span>
-        );
-    }
+  render() {
+    return (
+      <span>{this.state.date.toLocaleTimeString()}</span>
+    );
+  }
 }
 
 export default App;
